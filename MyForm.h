@@ -96,16 +96,16 @@ namespace ConsoleApplication3 {
 			this->openFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->saveFileDialog = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
-			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
-			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->label3 = (gcnew System::Windows::Forms::Label());
-			this->label4 = (gcnew System::Windows::Forms::Label());
-			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->button2 = (gcnew System::Windows::Forms::Button());
-			this->button3 = (gcnew System::Windows::Forms::Button());
-			this->button4 = (gcnew System::Windows::Forms::Button());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->button5 = (gcnew System::Windows::Forms::Button());
+			this->button4 = (gcnew System::Windows::Forms::Button());
+			this->button3 = (gcnew System::Windows::Forms::Button());
+			this->button2 = (gcnew System::Windows::Forms::Button());
+			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->label4 = (gcnew System::Windows::Forms::Label());
+			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer1))->BeginInit();
 			this->splitContainer1->Panel1->SuspendLayout();
@@ -172,17 +172,17 @@ namespace ConsoleApplication3 {
 			this->splitContainer1->SplitterDistance = 481;
 			this->splitContainer1->TabIndex = 1;
 			// 
-			// pictureBox1
+			// label2
 			// 
-			this->pictureBox1->BackColor = System::Drawing::Color::White;
-			this->pictureBox1->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->pictureBox1->Location = System::Drawing::Point(15, 15);
-			this->pictureBox1->Margin = System::Windows::Forms::Padding(20);
-			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(451, 729);
-			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
-			this->pictureBox1->TabIndex = 0;
-			this->pictureBox1->TabStop = false;
+			this->label2->AutoSize = true;
+			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label2->Location = System::Drawing::Point(141, 24);
+			this->label2->Name = L"label2";
+			this->label2->Size = System::Drawing::Size(261, 24);
+			this->label2->TabIndex = 1;
+			this->label2->Text = L"ลากเมาส์บนภาพเพื่อกำหนดช่องจอด";
+			this->label2->Click += gcnew System::EventHandler(this, &MyForm::label2_Click);
 			// 
 			// label1
 			// 
@@ -196,17 +196,94 @@ namespace ConsoleApplication3 {
 			this->label1->TabIndex = 0;
 			this->label1->Text = L"camera1";
 			// 
-			// label2
+			// pictureBox1
 			// 
-			this->label2->AutoSize = true;
-			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->pictureBox1->BackColor = System::Drawing::Color::White;
+			this->pictureBox1->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->pictureBox1->Location = System::Drawing::Point(15, 15);
+			this->pictureBox1->Margin = System::Windows::Forms::Padding(20);
+			this->pictureBox1->Name = L"pictureBox1";
+			this->pictureBox1->Size = System::Drawing::Size(451, 729);
+			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
+			this->pictureBox1->TabIndex = 0;
+			this->pictureBox1->TabStop = false;
+			// 
+			// button5
+			// 
+			this->button5->BackColor = System::Drawing::Color::LemonChiffon;
+			this->button5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label2->Location = System::Drawing::Point(141, 24);
-			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(261, 24);
-			this->label2->TabIndex = 1;
-			this->label2->Text = L"ลากเมาส์บนภาพเพื่อกำหนดช่องจอด";
-			this->label2->Click += gcnew System::EventHandler(this, &MyForm::label2_Click);
+			this->button5->ForeColor = System::Drawing::SystemColors::ControlDarkDark;
+			this->button5->Location = System::Drawing::Point(183, 377);
+			this->button5->Name = L"button5";
+			this->button5->Size = System::Drawing::Size(253, 42);
+			this->button5->TabIndex = 8;
+			this->button5->Text = L"see camera";
+			this->button5->UseVisualStyleBackColor = false;
+			// 
+			// button4
+			// 
+			this->button4->BackColor = System::Drawing::Color::LawnGreen;
+			this->button4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->button4->ForeColor = System::Drawing::Color::White;
+			this->button4->Location = System::Drawing::Point(212, 334);
+			this->button4->Name = L"button4";
+			this->button4->Size = System::Drawing::Size(196, 37);
+			this->button4->TabIndex = 7;
+			this->button4->Text = L"save";
+			this->button4->UseVisualStyleBackColor = false;
+			// 
+			// button3
+			// 
+			this->button3->BackColor = System::Drawing::Color::Red;
+			this->button3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->button3->ForeColor = System::Drawing::Color::White;
+			this->button3->Location = System::Drawing::Point(212, 287);
+			this->button3->Name = L"button3";
+			this->button3->Size = System::Drawing::Size(197, 41);
+			this->button3->TabIndex = 6;
+			this->button3->Text = L"cancle";
+			this->button3->UseVisualStyleBackColor = false;
+			// 
+			// button2
+			// 
+			this->button2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->button2->ForeColor = System::Drawing::SystemColors::ControlDarkDark;
+			this->button2->Location = System::Drawing::Point(178, 174);
+			this->button2->Name = L"button2";
+			this->button2->Size = System::Drawing::Size(257, 38);
+			this->button2->TabIndex = 5;
+			this->button2->Text = L"ID3 Normal Zone舲";
+			this->button2->UseVisualStyleBackColor = true;
+			// 
+			// button1
+			// 
+			this->button1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->button1->ForeColor = System::Drawing::SystemColors::ControlDarkDark;
+			this->button1->Location = System::Drawing::Point(178, 118);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(258, 39);
+			this->button1->TabIndex = 4;
+			this->button1->Text = L"ID2 Normal Zone舲";
+			this->button1->UseVisualStyleBackColor = true;
+			// 
+			// label4
+			// 
+			this->label4->AutoSize = true;
+			this->label4->BackColor = System::Drawing::Color::CadetBlue;
+			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label4->ForeColor = System::Drawing::Color::White;
+			this->label4->Location = System::Drawing::Point(26, 72);
+			this->label4->Name = L"label4";
+			this->label4->Size = System::Drawing::Size(199, 24);
+			this->label4->TabIndex = 3;
+			this->label4->Text = L"รายการช่องจอด (ROI List)";
+			this->label4->Click += gcnew System::EventHandler(this, &MyForm::label4_Click);
 			// 
 			// label3
 			// 
@@ -223,90 +300,13 @@ namespace ConsoleApplication3 {
 			this->label3->Text = L"เลือกเฟรม & เครื่องมือ";
 			this->label3->Click += gcnew System::EventHandler(this, &MyForm::label3_Click);
 			// 
-			// label4
-			// 
-			this->label4->AutoSize = true;
-			this->label4->BackColor = System::Drawing::Color::CadetBlue;
-			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->label4->ForeColor = System::Drawing::Color::White;
-			this->label4->Location = System::Drawing::Point(26, 72);
-			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(199, 24);
-			this->label4->TabIndex = 3;
-			this->label4->Text = L"รายการช่องจอด (ROI List)";
-			this->label4->Click += gcnew System::EventHandler(this, &MyForm::label4_Click);
-			// 
-			// button1
-			// 
-			this->button1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->button1->ForeColor = System::Drawing::SystemColors::ControlDarkDark;
-			this->button1->Location = System::Drawing::Point(178, 118);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(258, 39);
-			this->button1->TabIndex = 4;
-			this->button1->Text = L"ID2 Normal Zone\u8232";
-			this->button1->UseVisualStyleBackColor = true;
-			// 
-			// button2
-			// 
-			this->button2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->button2->ForeColor = System::Drawing::SystemColors::ControlDarkDark;
-			this->button2->Location = System::Drawing::Point(178, 174);
-			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(257, 38);
-			this->button2->TabIndex = 5;
-			this->button2->Text = L"ID3 Normal Zone\u8232";
-			this->button2->UseVisualStyleBackColor = true;
-			// 
-			// button3
-			// 
-			this->button3->BackColor = System::Drawing::Color::Red;
-			this->button3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->button3->ForeColor = System::Drawing::Color::White;
-			this->button3->Location = System::Drawing::Point(212, 287);
-			this->button3->Name = L"button3";
-			this->button3->Size = System::Drawing::Size(197, 41);
-			this->button3->TabIndex = 6;
-			this->button3->Text = L"cancle";
-			this->button3->UseVisualStyleBackColor = false;
-			// 
-			// button4
-			// 
-			this->button4->BackColor = System::Drawing::Color::LawnGreen;
-			this->button4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->button4->ForeColor = System::Drawing::Color::White;
-			this->button4->Location = System::Drawing::Point(212, 334);
-			this->button4->Name = L"button4";
-			this->button4->Size = System::Drawing::Size(196, 37);
-			this->button4->TabIndex = 7;
-			this->button4->Text = L"save";
-			this->button4->UseVisualStyleBackColor = false;
-			// 
-			// button5
-			// 
-			this->button5->BackColor = System::Drawing::Color::LemonChiffon;
-			this->button5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->button5->ForeColor = System::Drawing::SystemColors::ControlDarkDark;
-			this->button5->Location = System::Drawing::Point(183, 377);
-			this->button5->Name = L"button5";
-			this->button5->Size = System::Drawing::Size(253, 42);
-			this->button5->TabIndex = 8;
-			this->button5->Text = L"see camera";
-			this->button5->UseVisualStyleBackColor = false;
-			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1443, 759);
-			this->Controls->Add(this->splitContainer1);
 			this->Controls->Add(this->menuStrip1);
+			this->Controls->Add(this->splitContainer1);
 			this->MainMenuStrip = this->menuStrip1;
 			this->Name = L"MyForm";
 			this->Text = L"My Image Viewer";
