@@ -54,7 +54,7 @@ namespace ConsoleApplication3 {
 	private: System::Windows::Forms::PictureBox^ pictureBox1;
 	private: System::Windows::Forms::Panel^ panel2;
 	private: System::Windows::Forms::Button^ btnLoadVideo;
-	private: System::Windows::Forms::Button^ btnLoadImage;
+	private: System::Windows::Forms::Button^ btnLoadLive;
 	private: System::Windows::Forms::Button^ btnClearAll;
 	private: System::Windows::Forms::Button^ btnDeleteLast;
 	private: System::Windows::Forms::Button^ btnSaveTemplate;
@@ -66,6 +66,8 @@ namespace ConsoleApplication3 {
 	private: System::Windows::Forms::TextBox^ txtDescription;
 	private: System::Windows::Forms::Label^ label3;
 	private: System::Windows::Forms::ListBox^ listBoxSlots;
+	private: System::Windows::Forms::Timer^ cameraInitTimer;
+	private: cv::VideoCapture* liveCameraCapture;
 
 #pragma region Windows Form Designer generated code
 		void InitializeComponent(void)
@@ -83,7 +85,7 @@ namespace ConsoleApplication3 {
 			this->btnSaveTemplate = (gcnew System::Windows::Forms::Button());
 			this->btnDeleteLast = (gcnew System::Windows::Forms::Button());
 			this->btnClearAll = (gcnew System::Windows::Forms::Button());
-			this->btnLoadImage = (gcnew System::Windows::Forms::Button());
+			this->btnLoadLive = (gcnew System::Windows::Forms::Button());
 			this->btnLoadVideo = (gcnew System::Windows::Forms::Button());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->panel1->SuspendLayout();
@@ -140,7 +142,7 @@ namespace ConsoleApplication3 {
 			this->panel2->Controls->Add(this->btnSaveTemplate);
 			this->panel2->Controls->Add(this->btnDeleteLast);
 			this->panel2->Controls->Add(this->btnClearAll);
-			this->panel2->Controls->Add(this->btnLoadImage);
+			this->panel2->Controls->Add(this->btnLoadLive);
 			this->panel2->Controls->Add(this->btnLoadVideo);
 			this->panel2->Controls->Add(this->label1);
 			this->panel2->Dock = System::Windows::Forms::DockStyle::Right;
@@ -259,20 +261,20 @@ namespace ConsoleApplication3 {
 			this->btnClearAll->UseVisualStyleBackColor = false;
 			this->btnClearAll->Click += gcnew System::EventHandler(this, &ParkingSetupForm::btnClearAll_Click);
 			// 
-			// btnLoadImage
+			// btnLoadLive
 			// 
-			this->btnLoadImage->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), 
+			this->btnLoadLive->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), 
 				static_cast<System::Int32>(static_cast<System::Byte>(123)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			this->btnLoadImage->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->btnLoadImage->Font = (gcnew System::Drawing::Font(L"Segoe UI", 10.75F, System::Drawing::FontStyle::Bold));
-			this->btnLoadImage->ForeColor = System::Drawing::Color::White;
-			this->btnLoadImage->Location = System::Drawing::Point(157, 60);
-			this->btnLoadImage->Name = L"btnLoadImage";
-			this->btnLoadImage->Size = System::Drawing::Size(130, 80);
-			this->btnLoadImage->TabIndex = 2;
-			this->btnLoadImage->Text = L"??? Load Image";
-			this->btnLoadImage->UseVisualStyleBackColor = false;
-			this->btnLoadImage->Click += gcnew System::EventHandler(this, &ParkingSetupForm::btnLoadImage_Click);
+			this->btnLoadLive->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->btnLoadLive->Font = (gcnew System::Drawing::Font(L"Segoe UI", 10.75F, System::Drawing::FontStyle::Bold));
+			this->btnLoadLive->ForeColor = System::Drawing::Color::White;
+			this->btnLoadLive->Location = System::Drawing::Point(157, 60);
+			this->btnLoadLive->Name = L"btnLoadLive";
+			this->btnLoadLive->Size = System::Drawing::Size(130, 80);
+			this->btnLoadLive->TabIndex = 2;
+			this->btnLoadLive->Text = L"??? Load Live";
+			this->btnLoadLive->UseVisualStyleBackColor = false;
+			this->btnLoadLive->Click += gcnew System::EventHandler(this, &ParkingSetupForm::btnLoadLive_Click);
 			// 
 			// btnLoadVideo
 			// 
@@ -436,52 +438,164 @@ namespace ConsoleApplication3 {
 		}
 	}
 
-	private: System::Void btnLoadImage_Click(System::Object^ sender, System::EventArgs^ e) {
-		OpenFileDialog^ ofd = gcnew OpenFileDialog();
-		ofd->Filter = "Image Files|*.jpg;*.png;*.jpeg;*.bmp";
-		if (ofd->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
-			std::string filename = msclr::interop::marshal_as<std::string>(ofd->FileName);
-			*templateFrame = cv::imread(filename);
-			if (!templateFrame->empty()) {
-				parkingManager->setTemplateFrame(*templateFrame);
-				UpdateDisplay();
-				lblStatus->Text = "Image loaded! Click to draw parking slots (Right-click to finish slot)";
-				MessageBox::Show("Image loaded successfully!\n\nLeft-click: Add point\nRight-click: Finish current slot",
-					"Ready", MessageBoxButtons::OK, MessageBoxIcon::Information);
+	private: System::Void btnLoadLive_Click(System::Object^ sender, System::EventArgs^ e) {
+		// Create a professional form to input camera connection details
+		Form^ inputForm = gcnew Form();
+		inputForm->Text = "Connect to Mobile Camera";
+		inputForm->Width = 550;
+		inputForm->Height = 320;
+		inputForm->StartPosition = System::Windows::Forms::FormStartPosition::CenterParent;
+		inputForm->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
+		inputForm->MaximizeBox = false;
+		inputForm->MinimizeBox = false;
+
+		// Title Label
+		Label^ lblTitle = gcnew Label();
+		lblTitle->Text = "Enter Mobile Phone IP Address and Port";
+		lblTitle->Font = gcnew System::Drawing::Font("Segoe UI", 12, System::Drawing::FontStyle::Bold);
+		lblTitle->Location = System::Drawing::Point(20, 15);
+		lblTitle->Size = System::Drawing::Size(500, 30);
+		inputForm->Controls->Add(lblTitle);
+
+		// IP Address Label
+		Label^ lblIP = gcnew Label();
+		lblIP->Text = "IP Address:";
+		lblIP->Location = System::Drawing::Point(20, 60);
+		lblIP->Size = System::Drawing::Size(120, 20);
+		inputForm->Controls->Add(lblIP);
+
+		TextBox^ txtIP = gcnew TextBox();
+		txtIP->Text = "192.168.1.100";
+		txtIP->Location = System::Drawing::Point(180, 55);
+		txtIP->Size = System::Drawing::Size(320, 25);
+		inputForm->Controls->Add(txtIP);
+
+		// Port Label
+		Label^ lblPort = gcnew Label();
+		lblPort->Text = "Port:";
+		lblPort->Location = System::Drawing::Point(20, 100);
+		lblPort->Size = System::Drawing::Size(120, 20);
+		inputForm->Controls->Add(lblPort);
+
+		TextBox^ txtPort = gcnew TextBox();
+		txtPort->Text = "8080";
+		txtPort->Location = System::Drawing::Point(180, 95);
+		txtPort->Size = System::Drawing::Size(320, 25);
+		inputForm->Controls->Add(txtPort);
+
+		// Path Label
+		Label^ lblPath = gcnew Label();
+		lblPath->Text = "Path:";
+		lblPath->Location = System::Drawing::Point(20, 140);
+		lblPath->Size = System::Drawing::Size(120, 20);
+		inputForm->Controls->Add(lblPath);
+
+		TextBox^ txtPath = gcnew TextBox();
+		txtPath->Text = "/video";
+		txtPath->Location = System::Drawing::Point(180, 135);
+		txtPath->Size = System::Drawing::Size(320, 25);
+		inputForm->Controls->Add(txtPath);
+
+		// Example/Help Text
+		Label^ lblExample = gcnew Label();
+		lblExample->Text = "Example apps: IP Webcam, DroidCam, or iVCam\r\nMake sure both devices are on the same WiFi network";
+		lblExample->Font = gcnew System::Drawing::Font("Segoe UI", 9);
+		lblExample->ForeColor = System::Drawing::Color::Gray;
+		lblExample->Location = System::Drawing::Point(20, 170);
+		lblExample->Size = System::Drawing::Size(480, 50);
+		inputForm->Controls->Add(lblExample);
+
+		// Connect Button (Green)
+		Button^ btnConnect = gcnew Button();
+		btnConnect->Text = "Connect";
+		btnConnect->Location = System::Drawing::Point(180, 240);
+		btnConnect->Size = System::Drawing::Size(140, 40);
+		btnConnect->BackColor = System::Drawing::Color::FromArgb(40, 167, 69);
+		btnConnect->ForeColor = System::Drawing::Color::White;
+		btnConnect->Font = gcnew System::Drawing::Font("Segoe UI", 11, System::Drawing::FontStyle::Bold);
+		btnConnect->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+		btnConnect->FlatAppearance->BorderSize = 0;
+		btnConnect->DialogResult = System::Windows::Forms::DialogResult::OK;
+		inputForm->Controls->Add(btnConnect);
+
+		// Cancel Button (Red)
+		Button^ btnCancel = gcnew Button();
+		btnCancel->Text = "Cancel";
+		btnCancel->Location = System::Drawing::Point(330, 240);
+		btnCancel->Size = System::Drawing::Size(140, 40);
+		btnCancel->BackColor = System::Drawing::Color::FromArgb(220, 53, 69);
+		btnCancel->ForeColor = System::Drawing::Color::White;
+		btnCancel->Font = gcnew System::Drawing::Font("Segoe UI", 11, System::Drawing::FontStyle::Bold);
+		btnCancel->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+		btnCancel->FlatAppearance->BorderSize = 0;
+		btnCancel->DialogResult = System::Windows::Forms::DialogResult::Cancel;
+		inputForm->Controls->Add(btnCancel);
+
+		if (inputForm->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
+			std::string ip = msclr::interop::marshal_as<std::string>(txtIP->Text);
+			std::string port = msclr::interop::marshal_as<std::string>(txtPort->Text);
+			std::string path = msclr::interop::marshal_as<std::string>(txtPath->Text);
+
+			// Construct the camera URL: http://ip:port/path
+			std::string cameraURL = "http://" + ip + ":" + port + path;
+
+			if (liveCameraCapture != nullptr) {
+				delete liveCameraCapture;
+				liveCameraCapture = nullptr;
 			}
+
+			// Try to open camera with the constructed URL
+			liveCameraCapture = new cv::VideoCapture(cameraURL);
+
+			if (!liveCameraCapture->isOpened()) {
+				MessageBox::Show("Error: Cannot connect to the camera.\n\nPlease check:\n- IP address is correct\n- Port is correct\n- Path is correct\n- Both devices are on the same WiFi network", 
+					"Connection Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+				delete liveCameraCapture;
+				liveCameraCapture = nullptr;
+				delete inputForm;
+				return;
+			}
+
+			cameraInitTimer = gcnew System::Windows::Forms::Timer();
+			cameraInitTimer->Tick += gcnew System::EventHandler(this, &ParkingSetupForm::OnCameraInitTimerTick);
+			cameraInitTimer->Interval = 5000; // 5 seconds
+			cameraInitTimer->Start();
+
+			lblStatus->Text = "Camera connected! Waiting for initialization... (" + gcnew String(cameraURL.c_str()) + ")";
+			btnLoadLive->Enabled = false;
 		}
+
+		delete inputForm;
 	}
 
-	private: System::Void pictureBox1_MouseClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
-		if (templateFrame->empty()) return;
+	private: System::Void OnCameraInitTimerTick(System::Object^ sender, System::EventArgs^ e) {
+		cameraInitTimer->Stop();
+		cameraInitTimer = nullptr;
 
-		// Convert PictureBox coordinates to image coordinates
-		float scaleX = (float)templateFrame->cols / pictureBox1->ClientSize.Width;
-		float scaleY = (float)templateFrame->rows / pictureBox1->ClientSize.Height;
-		
-		int imgX = (int)(e->X * scaleX);
-		int imgY = (int)(e->Y * scaleY);
-
-		if (e->Button == System::Windows::Forms::MouseButtons::Left) {
-			// Add point to current polygon
-			currentPolygon->push_back(cv::Point(imgX, imgY));
-			isDrawing = true;
-			UpdateDisplay();
-		}
-		else if (e->Button == System::Windows::Forms::MouseButtons::Right) {
-			// Finish current polygon
-			if (currentPolygon->size() >= 3) {
-				parkingManager->addSlot(*currentPolygon);
-				currentPolygon->clear();
-				isDrawing = false;
+		if (liveCameraCapture != nullptr && liveCameraCapture->isOpened()) {
+			cv::Mat frame;
+			*liveCameraCapture >> frame;
+			if (!frame.empty()) {
+				// Ensure frame is in BGR color format for proper processing
+				if (frame.channels() == 4) {
+					cv::cvtColor(frame, frame, cv::COLOR_BGRA2BGR);
+				}
+				
+				*templateFrame = frame.clone();
+				parkingManager->setTemplateFrame(*templateFrame);
 				UpdateDisplay();
-				MessageBox::Show("Parking slot added!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+				lblStatus->Text = "Camera feed loaded! Click to draw parking slots (Right-click to finish slot)";
+				MessageBox::Show("Camera feed loaded successfully!\n\nLeft-click: Add point\nRight-click: Finish current slot",
+					"Ready", MessageBoxButtons::OK, MessageBoxIcon::Information);
+			} else {
+				MessageBox::Show("Error: Could not capture frame from camera", "Error", 
+					MessageBoxButtons::OK, MessageBoxIcon::Error);
 			}
-			else {
-				MessageBox::Show("Need at least 3 points to create a parking slot!", "Error", 
-					MessageBoxButtons::OK, MessageBoxIcon::Warning);
-			}
+		} else {
+			MessageBox::Show("Error: Camera is not properly connected", "Error", 
+				MessageBoxButtons::OK, MessageBoxIcon::Error);
 		}
+		btnLoadLive->Enabled = true;
 	}
 
 	private: System::Void btnClearAll_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -557,6 +671,36 @@ namespace ConsoleApplication3 {
 		}
 	}
 
-	// ...existing other methods...
+	private: System::Void pictureBox1_MouseClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
+		if (templateFrame->empty()) return;
+
+		// Convert PictureBox coordinates to image coordinates
+		float scaleX = (float)templateFrame->cols / pictureBox1->ClientSize.Width;
+		float scaleY = (float)templateFrame->rows / pictureBox1->ClientSize.Height;
+		
+		int imgX = (int)(e->X * scaleX);
+		int imgY = (int)(e->Y * scaleY);
+
+		if (e->Button == System::Windows::Forms::MouseButtons::Left) {
+			// Add point to current polygon
+			currentPolygon->push_back(cv::Point(imgX, imgY));
+			isDrawing = true;
+			UpdateDisplay();
+		}
+		else if (e->Button == System::Windows::Forms::MouseButtons::Right) {
+			// Finish current polygon
+			if (currentPolygon->size() >= 3) {
+				parkingManager->addSlot(*currentPolygon);
+				currentPolygon->clear();
+				isDrawing = false;
+				UpdateDisplay();
+				MessageBox::Show("Parking slot added!", "Success", MessageBoxButtons::OK, MessageBoxIcon::Information);
+			}
+			else {
+				MessageBox::Show("Need at least 3 points to create a parking slot!", "Error", 
+					MessageBoxButtons::OK, MessageBoxIcon::Warning);
+			}
+		}
+	}
 	};
 }
