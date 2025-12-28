@@ -580,11 +580,11 @@ namespace ConsoleApplication3 {
 			   this->label1 = (gcnew System::Windows::Forms::Label());
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBar1))->BeginInit();
+			   this->pnlViolationContainer_online->SuspendLayout();
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer1))->BeginInit();
 			   this->splitContainer1->Panel1->SuspendLayout();
 			   this->splitContainer1->Panel2->SuspendLayout();
 			   this->splitContainer1->SuspendLayout();
-			   this->pnlViolationContainer_online->SuspendLayout();
 			   this->SuspendLayout();
 			   // 
 			   // timer1
@@ -675,6 +675,13 @@ namespace ConsoleApplication3 {
 			   this->lblCameraName->TabIndex = 6;
 			   this->lblCameraName->Text = L"camera1";
 			   // 
+			   // panel2
+			   // 
+			   this->panel2->Location = System::Drawing::Point(0, 0);
+			   this->panel2->Name = L"panel2";
+			   this->panel2->Size = System::Drawing::Size(200, 100);
+			   this->panel2->TabIndex = 0;
+			   // 
 			   // lblLogs
 			   // 
 			   this->lblLogs->AutoSize = true;
@@ -684,11 +691,12 @@ namespace ConsoleApplication3 {
 			   this->lblLogs->Size = System::Drawing::Size(163, 31);
 			   this->lblLogs->TabIndex = 0;
 			   this->lblLogs->Text = L"logs 25/12/67";
+			   this->lblLogs->Click += gcnew System::EventHandler(this, &UploadForm::lblLogs_Click);
 			   // 
 			   // chkParkingMode
 			   // 
 			   this->chkParkingMode->AutoSize = true;
-			   this->chkParkingMode->Location = System::Drawing::Point(14, 30);
+			   this->chkParkingMode->Location = System::Drawing::Point(17, 95);
 			   this->chkParkingMode->Name = L"chkParkingMode";
 			   this->chkParkingMode->Size = System::Drawing::Size(98, 17);
 			   this->chkParkingMode->TabIndex = 8;
@@ -700,13 +708,34 @@ namespace ConsoleApplication3 {
 			   this->btnLoadParkingTemplate->BackColor = System::Drawing::Color::LightGreen;
 			   this->btnLoadParkingTemplate->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.25F, System::Drawing::FontStyle::Bold,
 				   System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			   this->btnLoadParkingTemplate->Location = System::Drawing::Point(14, 56);
+			   this->btnLoadParkingTemplate->Location = System::Drawing::Point(223, 131);
 			   this->btnLoadParkingTemplate->Name = L"btnLoadParkingTemplate";
-			   this->btnLoadParkingTemplate->Size = System::Drawing::Size(320, 34);
+			   this->btnLoadParkingTemplate->Size = System::Drawing::Size(141, 57);
 			   this->btnLoadParkingTemplate->TabIndex = 7;
 			   this->btnLoadParkingTemplate->Text = L"Load Template";
 			   this->btnLoadParkingTemplate->UseVisualStyleBackColor = false;
 			   this->btnLoadParkingTemplate->Click += gcnew System::EventHandler(this, &UploadForm::btnLoadParkingTemplate_Click);
+			   // 
+			   // lblViolation
+			   // 
+			   this->lblViolation->Location = System::Drawing::Point(0, 0);
+			   this->lblViolation->Name = L"lblViolation";
+			   this->lblViolation->Size = System::Drawing::Size(100, 23);
+			   this->lblViolation->TabIndex = 0;
+			   // 
+			   // lblNormal
+			   // 
+			   this->lblNormal->Location = System::Drawing::Point(0, 0);
+			   this->lblNormal->Name = L"lblNormal";
+			   this->lblNormal->Size = System::Drawing::Size(100, 23);
+			   this->lblNormal->TabIndex = 0;
+			   // 
+			   // lblEmpty
+			   // 
+			   this->lblEmpty->Location = System::Drawing::Point(0, 0);
+			   this->lblEmpty->Name = L"lblEmpty";
+			   this->lblEmpty->Size = System::Drawing::Size(100, 23);
+			   this->lblEmpty->TabIndex = 0;
 			   // 
 			   // btnLiveCamera
 			   // 
@@ -714,47 +743,47 @@ namespace ConsoleApplication3 {
 			   this->btnLiveCamera->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				   static_cast<System::Byte>(0)));
 			   this->btnLiveCamera->ForeColor = System::Drawing::SystemColors::ButtonHighlight;
-			   this->btnLiveCamera->Location = System::Drawing::Point(14, 99);
+			   this->btnLiveCamera->Location = System::Drawing::Point(74, 131);
 			   this->btnLiveCamera->Name = L"btnLiveCamera";
-			   this->btnLiveCamera->Size = System::Drawing::Size(320, 34);
+			   this->btnLiveCamera->Size = System::Drawing::Size(143, 57);
 			   this->btnLiveCamera->TabIndex = 0;
 			   this->btnLiveCamera->Text = L"📹 Live Camera";
 			   this->btnLiveCamera->UseVisualStyleBackColor = false;
 			   this->btnLiveCamera->Click += gcnew System::EventHandler(this, &UploadForm::btnLiveCamera_Click);
 			   // 
-			   // label5_online (Empty)
+			   // label5_online
 			   // 
 			   this->label5_online->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(76)), static_cast<System::Int32>(static_cast<System::Byte>(175)),
 				   static_cast<System::Int32>(static_cast<System::Byte>(80)));
 			   this->label5_online->Font = (gcnew System::Drawing::Font(L"Arial", 26, System::Drawing::FontStyle::Bold));
 			   this->label5_online->ForeColor = System::Drawing::Color::White;
-			   this->label5_online->Location = System::Drawing::Point(14, 143);
+			   this->label5_online->Location = System::Drawing::Point(60, 218);
 			   this->label5_online->Name = L"label5_online";
 			   this->label5_online->Size = System::Drawing::Size(320, 50);
 			   this->label5_online->TabIndex = 14;
 			   this->label5_online->Text = L"Empty: 0";
 			   this->label5_online->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			   // 
-			   // label6_online (Normal)
+			   // label6_online
 			   // 
 			   this->label6_online->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(193)),
 				   static_cast<System::Int32>(static_cast<System::Byte>(7)));
 			   this->label6_online->Font = (gcnew System::Drawing::Font(L"Arial", 26, System::Drawing::FontStyle::Bold));
 			   this->label6_online->ForeColor = System::Drawing::Color::White;
-			   this->label6_online->Location = System::Drawing::Point(14, 201);
+			   this->label6_online->Location = System::Drawing::Point(60, 286);
 			   this->label6_online->Name = L"label6_online";
 			   this->label6_online->Size = System::Drawing::Size(320, 50);
 			   this->label6_online->TabIndex = 15;
 			   this->label6_online->Text = L"Normal: 0";
 			   this->label6_online->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			   // 
-			   // label7_online (Violation)
+			   // label7_online
 			   // 
 			   this->label7_online->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(244)), static_cast<System::Int32>(static_cast<System::Byte>(67)),
 				   static_cast<System::Int32>(static_cast<System::Byte>(54)));
 			   this->label7_online->Font = (gcnew System::Drawing::Font(L"Arial", 26, System::Drawing::FontStyle::Bold));
 			   this->label7_online->ForeColor = System::Drawing::Color::White;
-			   this->label7_online->Location = System::Drawing::Point(14, 259);
+			   this->label7_online->Location = System::Drawing::Point(60, 355);
 			   this->label7_online->Name = L"label7_online";
 			   this->label7_online->Size = System::Drawing::Size(320, 50);
 			   this->label7_online->TabIndex = 16;
@@ -768,7 +797,7 @@ namespace ConsoleApplication3 {
 			   this->pnlViolationContainer_online->Controls->Add(this->btnClearViolations_online);
 			   this->pnlViolationContainer_online->Controls->Add(this->lblViolationCount_online);
 			   this->pnlViolationContainer_online->Controls->Add(this->lblViolationTitle_online);
-			   this->pnlViolationContainer_online->Location = System::Drawing::Point(14, 328);
+			   this->pnlViolationContainer_online->Location = System::Drawing::Point(37, 456);
 			   this->pnlViolationContainer_online->Name = L"pnlViolationContainer_online";
 			   this->pnlViolationContainer_online->Size = System::Drawing::Size(352, 225);
 			   this->pnlViolationContainer_online->TabIndex = 13;
@@ -800,7 +829,7 @@ namespace ConsoleApplication3 {
 			   this->lblViolationCount_online->Font = (gcnew System::Drawing::Font(L"Segoe UI", 10));
 			   this->lblViolationCount_online->Location = System::Drawing::Point(3, 30);
 			   this->lblViolationCount_online->Name = L"lblViolationCount_online";
-			   this->lblViolationCount_online->Size = System::Drawing::Size(117, 19);
+			   this->lblViolationCount_online->Size = System::Drawing::Size(84, 19);
 			   this->lblViolationCount_online->TabIndex = 1;
 			   this->lblViolationCount_online->Text = L"Violations: 0";
 			   // 
@@ -835,7 +864,6 @@ namespace ConsoleApplication3 {
 			   // splitContainer1.Panel2
 			   // 
 			   this->splitContainer1->Panel2->BackColor = System::Drawing::Color::LightSteelBlue;
-			   this->splitContainer1->Panel2->Padding = System::Windows::Forms::Padding(14);
 			   this->splitContainer1->Panel2->Controls->Add(this->pnlViolationContainer_online);
 			   this->splitContainer1->Panel2->Controls->Add(this->label7_online);
 			   this->splitContainer1->Panel2->Controls->Add(this->label6_online);
@@ -844,7 +872,8 @@ namespace ConsoleApplication3 {
 			   this->splitContainer1->Panel2->Controls->Add(this->btnLoadParkingTemplate);
 			   this->splitContainer1->Panel2->Controls->Add(this->chkParkingMode);
 			   this->splitContainer1->Panel2->Controls->Add(this->lblLogs);
-			   this->splitContainer1->Panel2->Size = System::Drawing::Size(1443, 759);
+			   this->splitContainer1->Panel2->Padding = System::Windows::Forms::Padding(14);
+			   this->splitContainer1->Size = System::Drawing::Size(1443, 759);
 			   this->splitContainer1->SplitterDistance = 1009;
 			   this->splitContainer1->TabIndex = 5;
 			   // 
@@ -873,19 +902,16 @@ namespace ConsoleApplication3 {
 			   this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &UploadForm::UploadForm_FormClosing);
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBar1))->EndInit();
+			   this->pnlViolationContainer_online->ResumeLayout(false);
+			   this->pnlViolationContainer_online->PerformLayout();
 			   this->splitContainer1->Panel1->ResumeLayout(false);
 			   this->splitContainer1->Panel1->PerformLayout();
 			   this->splitContainer1->Panel2->ResumeLayout(false);
 			   this->splitContainer1->Panel2->PerformLayout();
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer1))->EndInit();
 			   this->splitContainer1->ResumeLayout(false);
-			   this->pnlViolationContainer_online->ResumeLayout(false);
-			   this->pnlViolationContainer_online->PerformLayout();
 			   this->ResumeLayout(false);
 
-			   // บังคับให้สร้าง labelLogs ขึ้นมาเพื่อไม่ให้แสดงผลผิดพลาด
-			   this->lblLogs->BringToFront();
-			   this->lblLogs->SendToBack();
 		   }
 #pragma endregion
 
@@ -1350,7 +1376,6 @@ private: System::Void UploadForm_FormClosing(System::Object^ sender, FormClosing
 }
 
 	// *** [NEW] VIOLATION ALERTS METHODS ***
-
 	private: void AddViolationRecord_Online(int carId, cv::Mat& frameCapture, System::String^ violationType, 
 									 cv::Mat fullFrame, cv::Rect carBox) {
 		if (frameCapture.empty()) return;
@@ -1512,6 +1537,16 @@ private: System::Void UploadForm_FormClosing(System::Object^ sender, FormClosing
 		RefreshViolationPanel_Online();
 	}
 
-	// ...rest of existing methods...
-	};
+	// *** [NEW] SHOW LOG DATETIME OR DEFAULT MESSAGE ***
+	private: System::Void lblLogs_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (isProcessing) {
+			System::DateTime now = System::DateTime::Now;
+			System::String^ dateTimeStr = now.ToString(L"dd/MM/yyyy HH:mm:ss");
+			lblLogs->Text = dateTimeStr;
+		}
+		else {
+			lblLogs->Text = L"logs 25/12/67";
+		}
+	}
+};
 }
